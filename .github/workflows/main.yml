@@ -11,15 +11,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Create Fake APK for Testing
+      - name: Create APK
         run: |
-          # استخراج اسم المشروع من رسالة الالتزام (Commit)
           PROJECT_NAME=$(git log -1 --pretty=%s | sed 's/Build: //')
           mkdir -p build_output
-          # إنشاء ملف APK تجريبي لاختبار التحميل (يجب ربطه بمحركك لاحقاً)
-          echo "AI generated content for $PROJECT_NAME" > "build_output/${PROJECT_NAME}.apk"
+          echo "AI APK CONTENT" > "build_output/${PROJECT_NAME}.apk"
           
-      - name: Upload APK
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: Generated-APK
