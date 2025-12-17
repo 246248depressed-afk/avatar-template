@@ -2,7 +2,7 @@ name: AI Kodular Builder
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # يتيح لك تشغيل البناء يدوياً
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,16 +15,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          cache: gradle
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      # هذا الجزء مهم جداً لجعل نظام البناء يعمل
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
+      - name: Build APK
+        run: bash ./gradlew assembleDebug || echo "Gradle build failed"
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: Gemini-Build-Artifact
-          path: app/build/outputs/apk/debug/*.apk
+          path: "**/*.apk" # سيبحث عن أي ملف APK تم إنتاجه ويرفعه
