@@ -1,0 +1,34 @@
+name: AI Kodular Builder
+on:
+  push:
+    paths:
+      - 'src/appinventor/ai_user/prompt.txt'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Build APK with AI
+        run: |
+          # استخراج اسم المشروع من رسالة الرفع
+          PROJECT_NAME=$(git log -1 --pretty=%s | sed 's/Build: //')
+          echo "Building Project: $PROJECT_NAME"
+          
+          # هنا تتم عملية البرمجة والتحويل (محاكاة للمحرك)
+          mkdir -p build_output
+          cp src/appinventor/ai_user/prompt.txt build_output/${PROJECT_NAME}.apk
+          
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Generated-APK
+          path: build_output/*.apk
