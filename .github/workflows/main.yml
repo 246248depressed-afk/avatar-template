@@ -9,25 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: Build APK with AI
+      - name: Create Fake APK for Testing
         run: |
-          # استخراج اسم المشروع من رسالة الرفع
+          # استخراج اسم المشروع من رسالة الالتزام (Commit)
           PROJECT_NAME=$(git log -1 --pretty=%s | sed 's/Build: //')
-          echo "Building Project: $PROJECT_NAME"
-          
-          # هنا تتم عملية البرمجة والتحويل (محاكاة للمحرك)
           mkdir -p build_output
-          cp src/appinventor/ai_user/prompt.txt build_output/${PROJECT_NAME}.apk
+          # إنشاء ملف APK تجريبي لاختبار التحميل (يجب ربطه بمحركك لاحقاً)
+          echo "AI generated content for $PROJECT_NAME" > "build_output/${PROJECT_NAME}.apk"
           
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: Generated-APK
