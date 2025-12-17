@@ -1,6 +1,6 @@
 name: AI App Factory
 on:
-  workflow_dispatch: # هذا السطر يجعله قابلاً للتشغيل من هاتفك
+  workflow_dispatch: # يسمح بتشغيل البناء من التطبيق
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
           
-      - name: Upload Finished APK
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: Gemini-Build-Artifact
