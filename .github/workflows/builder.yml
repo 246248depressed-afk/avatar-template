@@ -1,30 +1,26 @@
-name: AI Kodular Builder
+name: AI App Factory
 on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+  workflow_dispatch: # هذا السطر يجعله قابلاً للتشغيل من هاتفك
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: set up JDK 11
+      
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
-
-      # هذا الجزء مهم جداً لجعل نظام البناء يعمل
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Build APK
-        run: bash ./gradlew assembleDebug || echo "Gradle build failed"
-
-      - name: Upload APK
+          
+      - name: Build Android APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          
+      - name: Upload Finished APK
         uses: actions/upload-artifact@v3
         with:
           name: Gemini-Build-Artifact
-          path: "**/*.apk" # سيبحث عن أي ملف APK تم إنتاجه ويرفعه
+          path: app/build/outputs/apk/debug/*.apk
